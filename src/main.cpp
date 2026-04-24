@@ -60,13 +60,13 @@ class BiquadFilter {
       float w = 2.0f * PI * (f0/Fs);
       float s = sin(w);
       float c = cos(w);
-      float alpha = sn/(2.0f * Q);
+      float alpha = s/(2.0f * Q);
       float a0 = 1.0f + (alpha/A);
 
       b0 = (1.0f + (alpha*A)) / a0;
-      b1 = (-2.0f * cs) / a0;
+      b1 = (-2.0f * c) / a0;
       b2 = (1.0f - (alpha*A)) / a0;
-      a1 = (-2.0f * cs)/ a0;
+      a1 = (-2.0f * c)/ a0;
       a2 = (1.0f-(alpha/A)) / a0;
     }
 };
