@@ -56,13 +56,15 @@ class BiquadFilter {
     }
 
     void calculateCoefficients(float f0, float gain, float Fs) {
+      // Calculate basic biquad coefficients based on gain and quality
       float A = pow(10, gain/40.0f);
       float w = 2.0f * PI * (f0/Fs);
       float s = sin(w);
       float c = cos(w);
       float alpha = s/(2.0f * Q);
-      float a0 = 1.0f + (alpha/A);
+      float a0 = 1.0f + (alpha/A);       // 0th order output term
 
+      //Normalize each coefficient by dividing by a0
       b0 = (1.0f + (alpha*A)) / a0;
       b1 = (-2.0f * c) / a0;
       b2 = (1.0f - (alpha*A)) / a0;
