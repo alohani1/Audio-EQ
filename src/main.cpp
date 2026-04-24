@@ -13,6 +13,7 @@ int myFunction(int, int);
 //Variable Initializations
 const float FS = 176400.0;
 const float Q = 0.707;
+const float centerF[5] = {100.0, 400.0, 1000.0, 4000.0, 10000.0};
 
 //class declarations
 class MovingAverage4 {
@@ -50,17 +51,28 @@ class BiquadFilter {
       z1 = (in*b1) - (out * a1) + z2; 
       z2 = (in*b2) - (out*a2);
 
-      
+
       return out;
+    }
+
+    void calculateCoefficients(float f0, float gain, float Fs) {
+      float A = pow(10, gain/40.0f);
+      float w = 2.0f * PI * (f0/Fs);
+      float s = sin(w);
+      float c = cos(w);
+      float alpha = sn/(2.0f * Q);
+      float a0 = 1.0f + (alpha/A);
+
+      b0 = (1.0f + (alpha*A)) / a0;
+      b1 = (-2.0f * cs) / a0;
+      b2 = (1.0f - (alpha*A)) / a0;
+      a1 = (-2.0f * cs)/ a0;
+      a2 = (1.0f-(alpha/A)) / a0;
     }
 };
 //Object Initialization
 MovingAverage4 averageFilter;
-BiquadFilter band1;
-BiquadFilter band2;
-BiquadFilter band3;
-BiquadFilter band4;
-BiquadFilter band5;
+BiquadFilter EQbands[5];
 
 void setup() {
   // put your setup code here, to run once:
