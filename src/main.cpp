@@ -30,8 +30,32 @@ class MovingAverage4 {
       return movingSum / 4.0f;
     }
 };
+class BiquadFilter {
+  private:
+    float z1 = 0;
+    float z2 = 0;
+  public:
+    float b0,b1,b2,a1,a2;
 
+    BiquadFilter() {
+      z1 = 0; z2 = 0;
+      b0 = 1; b1 = 0; b2 = 0; a1 = 0; a2 = 0;
+    }
+
+    float filter(float in) {
+      float out = (in*b0) + z1;
+      z1 = (in*b1) - (out * a1) + z2;
+      z2 = (in*b2) - (out*a2);
+      return out;
+    }
+};
+//Object Initialization
 MovingAverage4 averageFilter;
+BiquadFilter band1;
+BiquadFilter band2;
+BiquadFilter band3;
+BiquadFilter band4;
+BiquadFilter band5;
 
 void setup() {
   // put your setup code here, to run once:
