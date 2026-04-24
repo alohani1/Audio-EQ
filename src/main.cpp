@@ -17,25 +17,26 @@ const float Q = 0.707;
 //class declarations
 class MovingAverage4 {
   private:
-    float window[4] = {0,0,0,0};
-    int index = 0;
-    float movingSum = 0;
+    float window[4] = {0,0,0,0};  //4-point Filter Window
+    int index = 0;  // current index
+    float movingSum = 0;  //averaged sum
   public:
     float filter(float input) {
+      //Calculate Total Sum by subtracting oldest input and adding newest
       movingSum -= window[index];
       window[index] = input;
       movingSum += input;
-      index = (index + 1)%4;
+      index = (index + 1)%4;   //Wrap index
 
-      return movingSum / 4.0f;
+      return movingSum / 4.0f;  // Average
     }
 };
 class BiquadFilter {
   private:
-    float z1 = 0;
-    float z2 = 0;
+    float z1 = 0; //First Order Term
+    float z2 = 0; //Second Order Term
   public:
-    float b0,b1,b2,a1,a2;
+    float b0,b1,b2,a1,a2; 
 
     BiquadFilter() {
       z1 = 0; z2 = 0;
@@ -43,9 +44,13 @@ class BiquadFilter {
     }
 
     float filter(float in) {
-      float out = (in*b0) + z1;
-      z1 = (in*b1) - (out * a1) + z2;
+      float out = (in*b0) + z1; //Filter Difference Equation
+
+      //Calculate next first and second order terms
+      z1 = (in*b1) - (out * a1) + z2; 
       z2 = (in*b2) - (out*a2);
+
+      
       return out;
     }
 };
