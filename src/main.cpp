@@ -8,7 +8,8 @@
 
 
 // put function declarations here:
-int myFunction(int, int);
+void audioTask(void *pvParameters);
+void controlTask(void *pvParameters);
 
 //Variable Initializations
 const float FS = 176400.0;
@@ -77,15 +78,11 @@ MovingAverage4 averageFilter;
 BiquadFilter EQbands[5];
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  // Initialize I2S, ADC, and Pins
+
+  //Core optimization
+  xTaskCreatePinnedToCore(audioTask, "Audio", 4096, NULL, 10, NULL, 1);
+  xTaskCreatePinnedToCore(controlTask,  "Control", 4096, NULL, 1, NULL, 0);
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
-}
+void loop() {}
