@@ -6,14 +6,23 @@
 #include <arduinoFFT.h>
 #include <ResponsiveAnalogRead.h>
 
+#define SAMPLES 256
+#define Fsamp 44100
+
 
 // put function declarations here:
-int myFunction(int, int);
 
-//Variable Initializations
+
+//Variable 
+//Biquad Global Variables
 const float FS = 176400.0;
 const float Q = 0.707;
 const float centerF[5] = {100.0, 400.0, 1000.0, 4000.0, 10000.0};
+//FFT global variables
+double vReal[SAMPLES];
+double vImg[SAMPLES];
+int windowIndex = 0;
+bool windowFull = false;
 
 //class declarations
 class MovingAverage4 {
