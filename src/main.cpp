@@ -81,7 +81,8 @@ void setup() {
   // Initialize I2S, ADC, and Pins
 
   //Core optimization
-  xTaskCreatePinnedToCore(audioTask, "Audio", 4096, NULL, 10, NULL, 1);
+  //Give priority to audio processing on Core 1
+  xTaskCreatePinnedToCore(audioTask, "Audio", 4096, NULL, 10, NULL, 1); 
   xTaskCreatePinnedToCore(controlTask,  "Control", 4096, NULL, 1, NULL, 0);
 }
 
