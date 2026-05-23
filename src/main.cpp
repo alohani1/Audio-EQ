@@ -24,7 +24,7 @@ int bufferIndex = 0;
 volatile bool bufferReady = false;
 
 //potentiometer setup
-volatile float gains[5] = {0.0f,0.0f,0.0f,0.0f,0.0f};
+volatile float gains[5] = {0.0f,0.0f,0.0f,0.0f,0.0f}; //Initialize to 0
 
 //define Pin positions
 //put potentiometers in sleep mode when inactive
