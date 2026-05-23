@@ -59,11 +59,6 @@ void performFFT(double* realArr, double* ImArr, uint16_t sampleSize) {
 const float FS = 176400.0;
 const float Q = 0.707;
 const float centerF[5] = {100.0, 400.0, 1000.0, 4000.0, 10000.0};
-//FFT global variables
-double vReal[SAMPLES];
-double vImg[SAMPLES];
-int windowIndex = 0;
-bool windowFull = false;
 
 //class declarations
 class MovingAverage4 {
