@@ -6,6 +6,13 @@
 #include <arduinoFFT.h>
 #include <ResponsiveAnalogRead.h>
 
+//Pin layout:
+#define pin1 1    //Placeholder values for now
+#define pin2 2
+#define pin3 3
+#define pin4 4
+#define pin5 5
+
 //FFT DEFINITIONS AND VARIABLES
 #define SAMPLES 256
 #define Fsamp 44100
