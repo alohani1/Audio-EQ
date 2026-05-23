@@ -36,29 +36,16 @@ ResponsiveAnalogRead pots[5] = {
   ResponsiveAnalogRead(pin5, true),
 };
 
-//initiate ArduinoFFT
-ArduinoFFT<double>FFT = ArduinoFFT<double>(Real, Im, SAMPLES, Fsamp);
-
-
-// put function declarations here:
-void performFFT(double*, double*, uint16_t);
-//FFT function
-void performFFT(double* realArr, double* ImArr, uint16_t sampleSize) {
-  //Reset Imaginary Array
-  for (int i = 0; i < sampleSize; i++) {
-    ImArr[i] = 0.0;
-  }
-  //Perform FFT
-  FFT.windowing(FFT_WIN_TYP_HAMMING, FFT_FORWARD);
-  FFT.compute(FFT_FORWARD);
-  FFT.complexToMagnitude();
-}
-
-//Variable 
 //Biquad Global Variables
 const float FS = 176400.0;
 const float Q = 0.707;
 const float centerF[5] = {100.0, 400.0, 1000.0, 4000.0, 10000.0};
+
+
+// put function declarations here:
+void performFFT(double*, double*, uint16_t);
+void audioTask(void *pvParameters);
+void controlTask(void *pvParameters);
 
 //class declarations
 class MovingAverage4 {
@@ -100,6 +87,8 @@ class BiquadFilter {
       return out;
     }
 
+    
+
     void calculateCoefficients(float f0, float gain, float Fs) {
       // Calculate basic biquad coefficients based on gain and quality
       float A = pow(10, gain/40.0f);
@@ -117,20 +106,35 @@ class BiquadFilter {
       a2 = (1.0f-(alpha/A)) / a0;
     }
 };
+
+//initiate ArduinoFFT
+ArduinoFFT<double>FFT = ArduinoFFT<double>(Real, Im, SAMPLES, Fsamp);
+
+//functions
+
+//FFT function
+void performFFT(double* realArr, double* ImArr, uint16_t sampleSize) {
+  //Reset Imaginary Array
+  for (int i = 0; i < sampleSize; i++) {
+    ImArr[i] = 0.0;
+  }
+  //Perform FFT
+  FFT.windowing(FFT_WIN_TYP_HAMMING, FFT_FORWARD);
+  FFT.compute(FFT_FORWARD);
+  FFT.complexToMagnitude();
+}
+
 //Object Initialization
 MovingAverage4 averageFilter;
 BiquadFilter EQbands[5];
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  // Initialize I2S, ADC, and Pins
+
+  //Core optimization
+  //Give priority to audio processing on Core 1
+  xTaskCreatePinnedToCore(audioTask, "Audio", 4096, NULL, 10, NULL, 1); 
+  xTaskCreatePinnedToCore(controlTask,  "Control", 4096, NULL, 1, NULL, 0);
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
-}
+void loop() {}
