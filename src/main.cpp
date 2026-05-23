@@ -41,7 +41,7 @@ ArduinoFFT<double>FFT = ArduinoFFT<double>(Real, Im, SAMPLES, Fsamp);
 
 
 // put function declarations here:
-
+void performFFT(double*, double*, uint16_t);
 //FFT function
 void performFFT(double* realArr, double* ImArr, uint16_t sampleSize) {
   //Reset Imaginary Array
