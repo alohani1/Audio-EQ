@@ -57,7 +57,7 @@ Potentiometer jitter is completely eliminated in the firmware using the `Respons
 The project is built inside the PlatformIO ecosystem using the Visual Studio Code IDE and targets the standard Arduino core framework.
 
 The following libraries are required:
-* `ResponsiveAnalogRead` (Hardware smoothing)
-* `arduinoFFT` (FFT calculations for Arduino)
+* `kosme/ResponsiveAnalogRead` (Hardware smoothing)
+* `kosme/arduinoFFT` (FFT calculations for Arduino)
 
 ---
