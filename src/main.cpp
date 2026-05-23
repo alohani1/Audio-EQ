@@ -6,12 +6,46 @@
 #include <arduinoFFT.h>
 #include <ResponsiveAnalogRead.h>
 
+//FFT DEFINITIONS AND VARIABLES
 #define SAMPLES 256
 #define Fsamp 44100
+
+double Real[SAMPLES];
+double Im[SAMPLES];
+
+int bufferIndex = 0;
+volatile bool bufferReady = false;
+
+//potentiometer setup
+volatile float gains[5] = {0.0f,0.0f,0.0f,0.0f,0.0f};
+
+//define Pin positions
+//put potentiometers in sleep mode when inactive
+ResponsiveAnalogRead pots[5] = {
+  ResponsiveAnalogRead(pin1, true),
+  ResponsiveAnalogRead(pin2, true),
+  ResponsiveAnalogRead(pin3, true),
+  ResponsiveAnalogRead(pin4, true),
+  ResponsiveAnalogRead(pin5, true),
+};
+
+//initiate ArduinoFFT
+ArduinoFFT<double>FFT = ArduinoFFT<double>(Real, Im, SAMPLES, Fsamp);
 
 
 // put function declarations here:
 
+//FFT function
+void performFFT(double* realArr, double* ImArr, uint16_t sampleSize) {
+  //Reset Imaginary Array
+  for (int i = 0; i < sampleSize; i++) {
+    ImArr[i] = 0.0;
+  }
+  //Perform FFT
+  FFT.windowing(FFT_WIN_TYP_HAMMING, FFT_FORWARD);
+  FFT.compute(FFT_FORWARD);
+  FFT.complexToMagnitude();
+}
 
 //Variable 
 //Biquad Global Variables
