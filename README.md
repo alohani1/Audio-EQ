@@ -1,6 +1,6 @@
-# ESP32-S3 Real-Time Audio Equalizer & FFT Visualizer
+# ESP32 Real-Time Audio Equalizer & FFT Visualizer
 
-A dual-core analog and digital signal processing (DSP) application running on the ESP32-S3. This project captures real-time audio, processes it through a custom 5-band biquad equalizer, downsamples the audio with an anti-aliasing decimation filter, and computes a 256-point Fast Fourier Transform (FFT) for live frequency visualization.
+A dual-core analog and digital signal processing (DSP) application running on the ESP32. This project captures real-time audio, processes it through a custom 5-band biquad equalizer, downsamples the audio with an anti-aliasing decimation filter, and computes a 256-point Fast Fourier Transform (FFT) for live frequency visualization.
 
 ## System Architecture
 
